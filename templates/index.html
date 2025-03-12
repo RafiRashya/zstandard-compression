@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kompresi File - Zstandard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="flex-container">
+        <div class="container">
+            <h1>Kompresi File dengan Zstandard</h1>
+            <p>Unggah file Anda untuk dikompresi secara efisien menggunakan algoritma Zstandard.</p>
+
+            <form action="/" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput" required>
+                <button type="submit">Kompres</button>
+            </form>
+
+            {% if original_size %}
+                <div class="result">
+                    <h2>Hasil Kompresi</h2>
+                    <p><strong>Ukuran Awal:</strong> {{ original_size }} KB</p>
+                    <p><strong>Ukuran Setelah Kompresi:</strong> {{ compressed_size }} KB</p>
+                    <p><strong>Rasio Kompresi:</strong> {{ compression_ratio }}%</p>
+                    <a href="{{ url_for('download_compressed_file', filename=compressed_path) }}" class="download-btn" download>Download File Terkompresi</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="container">
+            <h1>Dekompresi File</h1>
+            <p>Unggah file yang telah dikompresi untuk mengembalikan ukuran file asli.</p>
+            <form action="/decompress" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput" required>
+                <button type="submit">Dekompres</button>
+            </form>
+            {%if decompressed_size%}
+                <div class="result">
+                    <h2>Hasil Dekompresi</h2>
+                    <p><strong>Ukuran Asli :</strong> {{decompressed_size}} KB </p>
+                    <a href="{{ url_for('download_decompressed_file', filename=decompressed_path) }}" class="download-btn" download>Download File Asli</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
